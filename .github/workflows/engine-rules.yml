@@ -1,0 +1,37 @@
+name: Engine rules
+# Locks down the typing engine: every decided rule (DECISIONS.md) has tagged test cases,
+# plus golden snapshots of typing a mixed Vietnamese/English corpus and every syllable.
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }   # the scorecard builds the engine of the commit before this change
+      - name: Rules, golden snapshots, Telex lock, metrics
+        run: |
+          set -o pipefail
+          zsh Tools/autoswitch/check.sh 2>&1 | tee check.log
+      - name: Quality scorecard (job summary)
+        if: always()
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            python3 Tools/quality/scorecard.py --compare "$BASE" >> "$GITHUB_STEP_SUMMARY"
+          else
+            python3 Tools/quality/scorecard.py >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Keep the engine test log
+        if: always() && (github.event_name == 'pull_request' || github.ref == 'refs/heads/main')
+        uses: actions/upload-artifact@v4
+        with: { name: check-log, path: check.log, retention-days: 7, if-no-files-found: ignore }
+  app:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Envispeed local macOS app
+        run: |
+          zsh Tools/macos/build-local.sh

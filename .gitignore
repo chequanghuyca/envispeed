@@ -1,0 +1,16 @@
+.DS_Store
+xcuserdata/
+*.xcuserstate
+build/
+DerivedData/
+Envispeed.xcodeproj/
+dist/
+Tools/autoswitch/test/harness
+Tools/autoswitch/sim/sim
+Tools/autoswitch/sim/rtsim
+Tools/autoswitch/driver/undo_test
+Tools/autoswitch/driver/bench
+Tools/autoswitch/driver/drvlazy
+Tools/autoswitch/touch/touchsim
+Tools/autoswitch/touch/normeval
+Tools/autoswitch/touch/typoeval

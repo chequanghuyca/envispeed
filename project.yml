@@ -1,0 +1,44 @@
+name: Envispeed
+options:
+  bundleIdPrefix: io.github.chequanghuyca
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    CLANG_CXX_LANGUAGE_STANDARD: c++17
+    MARKETING_VERSION: "0.1.1"
+    CURRENT_PROJECT_VERSION: "2"
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+targets:
+  Envispeed:
+    type: application
+    platform: macOS
+    dependencies:
+      - sdk: Carbon.framework
+      - sdk: ApplicationServices.framework
+    sources:
+      - path: App
+      - path: Engine
+        excludes:
+          - "platforms/win32.h"
+          - "platforms/linux.h"
+      - path: design/Envispeed.icns
+        buildPhase: resources
+      - path: LICENSE
+        buildPhase: resources
+      - path: ACKNOWLEDGEMENTS.md
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_NAME: Envispeed
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.chequanghuyca.envispeed
+        INFOPLIST_FILE: App/Info.plist
+        CODE_SIGN_ENTITLEMENTS: App/Envispeed.entitlements
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_HARDENED_RUNTIME: YES
+        SWIFT_OBJC_BRIDGING_HEADER: App/Core/Envispeed-Bridging-Header.h
+        HEADER_SEARCH_PATHS: ["$(SRCROOT)/Engine", "$(SRCROOT)/Engine/platforms"]
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        COMBINE_HIDPI_IMAGES: YES
