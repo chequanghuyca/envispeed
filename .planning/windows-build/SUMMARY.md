@@ -29,3 +29,7 @@ Lấy phần Windows từ [Vikey main 350efb2](https://github.com/tonyminibot/Vi
 Chạy `Windows/check.ps1` rồi `Windows/package.ps1` từ Developer PowerShell theo README. Host macOS chưa chạy MSVC/ISCC native, chưa kiểm tra cài, nâng cấp, gỡ, hiển thị UI hoặc keyboard hook trên Windows. Bản đóng gói chưa ký Authenticode. CI sẽ chạy trên Windows sau khi source được push.
 
 Trên desktop Windows, mở app, thử Alt+Z trong Notepad rồi chạy `Windows\Tests\run_livetest.cmd` theo thiết lập trong README. Kiểm tra Start Menu, bật/tắt chạy lúc đăng nhập, cài lại và gỡ.
+
+## Kiểm thử native tiếp theo
+
+Ngày 2026-11-06, nhánh `codex/windows-testing` đã build/test/package x64 và ARM64 trên CI, chạy lại đầy đủ `check.ps1` với binary CI trên Windows 10 Pro x64 và đạt 29/29 ca qua keyboard hook thực tế. Xem [báo cáo, nhật ký và phạm vi chưa kiểm tra](WINDOWS-10-TEST-2026-11-06.md).

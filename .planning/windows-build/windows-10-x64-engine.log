@@ -1,0 +1,16 @@
+rules: 169/169 pass
+rules (telex_simple1.tsv): 14/14 pass
+rules (telex_simple2.tsv): 14/14 pass
+reported bugs fixed: 20/20
+chat_lazy.tsv: unchanged (1911 lines)
+chat_typos_lazy.tsv: unchanged (1911 lines)
+synthetic_lazy.tsv: unchanged (5653 lines)
+telex_vn_mode.tsv: unchanged (11092 lines)
+metrics chat: manual switches 61 -> 61, wrong words 1 -> 1  [ok]
+metrics chat_typos: manual switches 74 -> 74, wrong words 7 -> 7  [ok]
+metrics synthetic: manual switches 120 -> 120, wrong words 9 -> 9  [ok]
+undo after fix, switch, click: ok
+keys 120911 chars 104715 hash 89674934
+driver == simulator: ok
+keys 238532  avg 585 ns  p99 4000 ns  p99.9 6600 ns  max 25600 ns  (budget avg 1000, p99.9 20000)
+ALL CHECKS PASSED
