@@ -1,0 +1,48 @@
+name: Windows
+on:
+  push:
+    branches: [main]
+    paths: [Windows/**, Engine/**, Tools/autoswitch/**, App/Resources/Emoji.json, project.yml, LICENSE, ACKNOWLEDGEMENTS.md, .github/workflows/windows.yml]
+  pull_request:
+    paths: [Windows/**, Engine/**, Tools/autoswitch/**, App/Resources/Emoji.json, project.yml, LICENSE, ACKNOWLEDGEMENTS.md, .github/workflows/windows.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-latest
+            arch: x64
+            msvc: amd64
+          - runner: windows-11-arm
+            arch: arm64
+            msvc: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build and test with MSVC
+        shell: pwsh
+        env:
+          TARGET_ARCH: ${{ matrix.msvc }}
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs = & $vswhere -latest -products * -property installationPath
+          if (-not $vs) { throw 'Visual Studio installation not found.' }
+          & "$vs/Common7/Tools/Launch-VsDevShell.ps1" -Arch $env:TARGET_ARCH -HostArch $env:TARGET_ARCH -SkipAutomaticLocation
+          ./Windows/check.ps1
+      - name: Package installer and portable ZIP
+        shell: pwsh
+        run: ./Windows/package.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Envispeed-windows-${{ matrix.arch }}
+          path: dist/windows/*
+          if-no-files-found: error

@@ -1,6 +1,6 @@
 # Acknowledgements
 
-Envispeed is a modified distribution of [Vikey](https://github.com/tonyminibot/Vikey) by Tony Dinh (Đinh Quang Trung) and contributors, based on OpenKey by Tuyen Mai. Envispeed branding and macOS distribution changes by chequanghuyca, 2026-11-06, GPL-3.0. Original code and data credits are retained below.
+Envispeed is a modified distribution of [Vikey](https://github.com/tonyminibot/Vikey) by Tony Dinh (Đinh Quang Trung) and contributors, based on OpenKey by Tuyen Mai. Envispeed branding and distribution changes for macOS and Windows by chequanghuyca, 2026-11-06, GPL-3.0. Original code and data credits are retained below.
 
 The included typing components use the code and data below. The app contains only word statistics counted from the data, never the text itself.
 
@@ -10,7 +10,6 @@ The included typing components use the code and data below. The app contains onl
 
 - [OpenKey](https://github.com/tuyenvm/OpenKey), Tuyen Mai (GPL-3.0)
 - [Sparkle](https://sparkle-project.org), Sparkle Project (MIT)
-- [TweetNaCl](https://tweetnacl.cr.yp.to), Daniel J. Bernstein et al. (public domain), Windows update signature check
 - [Inno Setup](https://jrsoftware.org/isinfo.php), Jordan Russell, Martijn Laan (Inno Setup License), Windows installer
 
 ## Word data (counted into the app)
