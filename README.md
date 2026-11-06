@@ -60,6 +60,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Windows/package.ps1
 
 Mở EXE, hoàn thành hướng dẫn rồi thử gõ trong Notepad và dùng **Alt+Z** để chuyển Việt/Anh. Để chạy bộ kiểm thử qua keyboard hook, giữ app đang chạy với cấu hình Telex mặc định, chuyển bố cục Windows sang US, bật Num Lock, tắt Caps Lock và chạy `Windows\Tests\run_livetest.cmd`. Để cửa sổ test giữ focus đến khi kết thúc. Thoát Envispeed từ khay hệ thống trước khi cài lại hoặc gỡ cài đặt.
 
+Máy chưa có Visual Studio/CMake có thể dùng binary từ một lần chạy workflow **Windows** thành công, đúng commit của source đang kiểm tra. Tải artifact `Envispeed-windows-test-tools-x64` (hoặc `arm64`), giải nén vào `Windows/build/` để có các thư mục `tools/` và `App/`, rồi chạy:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Windows/check.ps1 -SkipBuild
+```
+
+Tải thêm artifact ứng dụng cùng lần chạy để thử EXE và keyboard hook. `-SkipBuild` vẫn chạy đầy đủ các kiểm thử của `check.ps1`; không biên dịch lại source.
+
 Cấu hình lưu ở `HKCU\Software\Envispeed`. Nhật ký gõ tắt mặc định. Nhật ký khi bật và báo cáo lỗi lưu ở `%LOCALAPPDATA%\Envispeed`. Mục **Xem bản phát hành** mở GitHub Releases để tải thủ công.
 
 ## Kiểm thử

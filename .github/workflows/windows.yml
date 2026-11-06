@@ -46,3 +46,11 @@ jobs:
           name: Envispeed-windows-${{ matrix.arch }}
           path: dist/windows/*
           if-no-files-found: error
+      - name: Upload tools for local Windows testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: Envispeed-windows-test-tools-${{ matrix.arch }}
+          path: |
+            Windows/build/tools/*.exe
+            Windows/build/App/envispeed_livetest.exe
+          if-no-files-found: error

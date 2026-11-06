@@ -1,15 +1,22 @@
-# From a Visual Studio Developer PowerShell configured for the target architecture.
-param([string]$BuildDir = "$PSScriptRoot/build")
+# From a Visual Studio Developer PowerShell, or reuse matching CI binaries with -SkipBuild.
+param([string]$BuildDir = "$PSScriptRoot/build", [switch]$SkipBuild)
 
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path -LiteralPath "$PSScriptRoot/..").Path
 $tools = Join-Path $root 'Tools/autoswitch'
 $build = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BuildDir)
 
-cmake -S "$root/Windows" -B $build -G Ninja -DCMAKE_BUILD_TYPE=Release
-if ($LASTEXITCODE -ne 0) { throw 'CMake configure failed.' }
-cmake --build $build --config Release
-if ($LASTEXITCODE -ne 0) { throw 'Build failed.' }
+if (-not $SkipBuild) {
+    cmake -S "$root/Windows" -B $build -G Ninja -DCMAKE_BUILD_TYPE=Release
+    if ($LASTEXITCODE -ne 0) { throw 'CMake configure failed.' }
+    cmake --build $build --config Release
+    if ($LASTEXITCODE -ne 0) { throw 'Build failed.' }
+}
+foreach ($tool in 'harness', 'sim', 'undo_test', 'drvlazy', 'bench') {
+    if (-not (Test-Path -LiteralPath "$build/tools/$tool.exe" -PathType Leaf)) {
+        throw "Missing test binary: $build/tools/$tool.exe. Build first or download the matching CI test tools."
+    }
+}
 
 $temp = Join-Path ([IO.Path]::GetTempPath()) "envispeed-check-$([guid]::NewGuid())"
 New-Item -ItemType Directory -Path $temp | Out-Null
